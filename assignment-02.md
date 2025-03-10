@@ -1,6 +1,6 @@
 # CMPS 2200 Assignment 2
 
-**Name:**_________________________
+**Name:** Sophie Strobl
 
 In this assignment we'll work on applying the methods we've learned to analyze recurrences, and also see their behavior
 in practice. As with previous
@@ -15,95 +15,112 @@ and push to your github repository.
 Derive asymptotic upper bounds of work for each recurrence below.
 
 * $W(n)=2W(n/3)+1$
-.  
-.  
-. 
-.  
-. 
-.  
-. 
+  
+a = 2, b = 3, f(n) = O(1)
+
+log_3(2) ≈ 0.63
+
+Since f(n) = O(1) grows slower than n^(log_3 2), we use Case 1 of the Master Theorem.
+
+Asymptotic upper bound:
+
+W(n) = O(n^log_3(2)) or W(n) = O(n^0.63)
  
 * $W(n)=5W(n/4)+n$
-.  
-.
-.  
-. 
-.  
-. 
-.  
-.  
-. 
+
+a = 5, b = 4, f(n) = O(n)
+
+log_4(5) ≈ 1.16
+
+Since O(n^1.16) grows faster than O(n), Case 1 applies.
+
+Asymptotic upper bound:
+
+W(n) = O(n^1.16)
 
 * $W(n)=7W(n/7)+n$
-.  
-. 
-.  
-.  
-. 
-.  
-.
+
+a = 7, b = 7, f(n) = O(n)
+
+log_7(7) = 1
+
+Since O(n^1) and O(n) grow at the same rate, Case 2 applies.
+
+Asymptotic upper bound:
+
+W(n) = O(n)
 
 * $W(n)=9W(n/3)+n^2$
-.  
-.
-. 
-.  
-. 
-.  
-.  
-.  
-.
+
+a = 9, b = 3, f(n) = O(n^2)
+
+log_3(9) = 2
+
+Since O(n^2) and O(n^2) grow at the same rate, Case 2 applies.
+
+Asymptotic upper bound:
+
+W(n) = O(n^2 log n)
 
 * $W(n)=8W(n/2)+n^3$
-.  
-.
-.  
-.  
-.  
-.  
-. 
-.  
-. 
 
+a = 8, b = 2, f(n) = O(n^3)
+
+log_2(8) = 3
+
+Since O(n^3) and O(n^3) grow at the same rate, Case 2 applies.
+
+Asymptotic upper bound:
+
+W(n) = O(n^3 log n)
 
 * $W(n)=49W(n/25)+n^{3/2}\log n$
-.  
-.  
-. 
-.  
-. 
-.  
-.  
-.  
+
+a = 49, b = 25, f(n) = O(n^(3/2) log n)
+
+log_25(49) = log(49) / log(25) ≈ 1.21
+
+Compare f(n) = O(n^(3/2) log n) with O(n^1.21):
+
+Since O(n^(3/2) log n) grows faster than O(n^1.21), Case 3 applies.
+
+Asymptotic upper bound:
+
+W(n) = O(n^(3/2) log n)
 
 * $W(n)=W(n-1)+2$
-.  
-.  
-. 
-.  
-. 
-.  
-.  
-.  
+W(n) = W(n - 1) + 2  
+     = W(n - 2) + 2 + 2  
+     = W(n - 3) + 2 + 2 + 2  
+     = ...  
+     = W(1) + 2(n - 1)
+
+Assuming W(1) is a constant O(1):
+
+W(n) = O(n)
 
 * $W(n)= W(n-1)+n^c$, with $c\geq 1$
-.  
-.  
-.  
-.  
-.  
-. 
-.  
-. 
+W(n) = W(n - 1) + n^c  
+     = W(n - 2) + (n - 1)^c + n^c  
+     = W(n - 3) + (n - 2)^c + (n - 1)^c + n^c  
+     = ...  
+     = W(1) + Σ(k=1 to n) k^c
+
+Asymptotic upper bound:
+
+W(n) = O(n^(c+1))
+
 
 * $W(n)=W(\sqrt{n})+1$
-.  
-.  
-.  
-.  
-.  
-. 
-. 
+Let k be the number of steps:
+
+n^(1/2^k) = 2  
+(1/2^k) log n = log 2  
+k = log log n
+
+Asymptotic upper bound:
+
+W(n) = O(log log n)
 
 
 ## Part 2. Algorithm Comparison
@@ -160,10 +177,11 @@ Below, we'll solve this problem three different ways, using iterate, scan, and d
 
 **3b.** What are the recurrences for the Work and Span of this solution? What are their Big Oh solutions?
 
-**enter answer here**
+The Work (W(n)) recurrence is W(n) = 2W(n/2) + O(1). Using the recurrence tree, this expands to O(n), meaning the total work is O(n).
 
-.  
-. 
+The Span (S(n)) recurrence is S(n) = S(n/2) + O(1), this gives O(log n).
+
+Thus, the divide-and-conquer solution has O(n) work and O(log n) span, making it efficient for parallel execution.
 
 
 
