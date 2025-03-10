@@ -33,16 +33,6 @@ def parens_match_iterative(mylist):
 
 
 def parens_update(current_output, next_input):
-    """
-    Updates the parenthesis balance count.
-
-    Params:
-      current_output...cumulative output so far
-      next_input.......next value in the input list
-
-    Returns:
-      Updated current_output value.
-    """
     if current_output == -float('inf'):  # Already invalid
         return current_output
     if next_input == '(':
@@ -51,29 +41,12 @@ def parens_update(current_output, next_input):
         if current_output <= 0:  # Closing before an open -> invalid
             return -float('inf')
         return current_output - 1
-    return current_output  # Ignore non-parenthesis
+    return current_output  
 
 
-#### Scan solution
 def parens_match_scan(mylist):
-    """
-    Implement a solution using `scan`.
-
-    Params:
-      mylist...a list of strings
-    Returns:
-      True if the parenthesis are matched, False otherwise
-
-    e.g.,
-    >>> parens_match_scan(['(', 'a', ')'])
-    True
-    >>> parens_match_scan(['('])
-    False
-    """
     mapped_list = list(map(paren_map, mylist))
-
     history, last = scan(lambda x, y: x + y, 0, mapped_list)
-
     return last == 0 and reduce(min_f, history) >= 0
 
 def scan(f, id_, a):
@@ -116,36 +89,26 @@ def parens_match_dc(mylist):
 
 
 def parens_match_dc_helper(mylist):
-    """
-    Divide and conquer approach for parenthesis matching.
-
-    Returns:
-      A tuple (R, L), where:
-      - R is the number of unmatched right parentheses.
-      - L is the number of unmatched left parentheses.
-    """
-    # Base cases
     if len(mylist) == 0:
         return (0, 0)
     elif len(mylist) == 1:
         if mylist[0] == '(':
-            return (0, 1)  # One unmatched '('
+            return (0, 1)  # One unmatched left parenthesis
         elif mylist[0] == ')':
-            return (1, 0)  # One unmatched ')'
-        return (0, 0)  # Non-parenthesis characters
+            return (1, 0)  # One unmatched right parenthesis
+        return (0, 0)  # Ignore non-parenthesis characters
 
-    # Recursive calls
+    # Split the list into two halves
     mid = len(mylist) // 2
-    left_unmatched = parens_match_dc_helper(mylist[:mid])
-    right_unmatched = parens_match_dc_helper(mylist[mid:])
+    left_r, left_l = parens_match_dc_helper(mylist[:mid])
+    right_r, right_l = parens_match_dc_helper(mylist[mid:])
 
-    # Combine results
-    left_r, left_l = left_unmatched
-    right_r, right_l = right_unmatched
+    # Merge the results:
+    # If the left side has extra unmatched left parentheses, they may cancel out some right-side unmatched right parentheses.
+    # If the right side has more unmatched right parentheses, they may cancel out some left-side unmatched left parentheses.
+    unmatched_right = left_r + max(0, right_r - left_l)
+    unmatched_left = right_l + max(0, left_l - right_r)
 
-    # Balance mismatches
-    if left_l > right_r:
-        return (left_r, right_l + (left_l - right_r))
-    return (left_r + (right_r - left_l), right_l)
+    return (unmatched_right, unmatched_left)
 
 

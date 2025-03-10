@@ -194,11 +194,7 @@ Thus, the divide-and-conquer solution has O(n) work and O(log n) span, making it
 
 **3d.** Assume that any `map`s are done in parallel, and that we use the efficient implementation of `scan` from class. What are the recurrences for the Work and Span of this solution? 
 
-**enter answer here**
-
-.  
-.  
-
+The work of the parens_match_scan solution is O(n) because each step—mapping, scanning, and reducing—processes all elements of the list, leading to a total linear workload. The span is O(log n) due to the efficient parallel scan and reduction steps. This makes the solution parallelizable.
 
 
 
@@ -206,19 +202,12 @@ Thus, the divide-and-conquer solution has O(n) work and O(log n) span, making it
 
 
 
-.  
-. 
-
-
-
 
 
 **3f.** Assuming any recursive calls are done in parallel, what are the recurrences for the Work and Span of this solution? What are their Big Oh solutions?
 
-**enter answer here**
+The work is O(n) from solving two subproblems per level and a constant-time merge. The span is O(log n) since recursive calls run in parallel, limiting the depth of sequential operations. This ensures efficient parallel execution.
 
-.  
-. 
 
 
  
