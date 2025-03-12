@@ -25,7 +25,7 @@ def parens_match_iterative(mylist):
         result = initial
         for elem in lst:
             result = update_fn(result, elem)
-            if result == -float('inf'):  # Early exit if invalid
+            if result == -float('inf'):  
                 return result
         return result
 
@@ -33,12 +33,12 @@ def parens_match_iterative(mylist):
 
 
 def parens_update(current_output, next_input):
-    if current_output == -float('inf'):  # Already invalid
+    if current_output == -float('inf'): 
         return current_output
     if next_input == '(':
         return current_output + 1
     elif next_input == ')':
-        if current_output <= 0:  # Closing before an open -> invalid
+        if current_output <= 0:  
             return -float('inf')
         return current_output - 1
     return current_output  
@@ -75,8 +75,6 @@ def min_f(x, y):
     """
     return min(x, y)
 
-
-#### Divide and conquer solution
 def parens_match_dc(mylist):
     """
     Calls `parens_match_dc_helper` and checks for matching result.
@@ -93,19 +91,16 @@ def parens_match_dc_helper(mylist):
         return (0, 0)
     elif len(mylist) == 1:
         if mylist[0] == '(':
-            return (0, 1)  # One unmatched left parenthesis
+            return (0, 1)  
         elif mylist[0] == ')':
-            return (1, 0)  # One unmatched right parenthesis
-        return (0, 0)  # Ignore non-parenthesis characters
+            return (1, 0)  
+        return (0, 0)  
 
-    # Split the list into two halves
+ 
     mid = len(mylist) // 2
     left_r, left_l = parens_match_dc_helper(mylist[:mid])
     right_r, right_l = parens_match_dc_helper(mylist[mid:])
 
-    # Merge the results:
-    # If the left side has extra unmatched left parentheses, they may cancel out some right-side unmatched right parentheses.
-    # If the right side has more unmatched right parentheses, they may cancel out some left-side unmatched left parentheses.
     unmatched_right = left_r + max(0, right_r - left_l)
     unmatched_left = right_l + max(0, left_l - right_r)
 
