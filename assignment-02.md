@@ -20,7 +20,7 @@ a = 2, b = 3, f(n) = O(1)
 
 log_3(2) ≈ 0.63
 
-Since f(n) = O(1) grows slower than n^(log_3 2), we use Case 1 of the Master Theorem.
+Since f(n) = O(1) grows slower than n^(log_3 2), Case 1 of the Master Theorem is used.
 
 Asymptotic upper bound:
 
