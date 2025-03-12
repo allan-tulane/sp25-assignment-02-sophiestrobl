@@ -179,11 +179,11 @@ Below, we'll solve this problem three different ways, using iterate, scan, and d
 
 The Work (W(n)) recurrence is W(n) = 2W(n/2) + O(1). Using the recurrence tree, this expands to O(n), meaning the total work is O(n).
 
-The Span (S(n)) recurrence is S(n) = S(n/2) + O(1), this gives O(log n).
+The Span (S(n)) recurrence is S(n) = S(n/2) + O(1), this gives O(n).
 
 Thus, the divide-and-conquer solution has O(n) work and O(log n) span, making it efficient for parallel execution.
 
-
+W(n) = W(n-1) +O(1) S(n) = S(n-1) + O(1), so W(n) = O(n) S(n) = O(n)
 
 **3c. scan solution** Implement `parens_match_scan` a solution to this problem using `scan`. **Hint**: We have given you the function `paren_map` which maps `(` to `1`, `)` to `-1` and everything else to `0`. How can you pass this function to `scan` to solve the problem? You may also find the `min_f` function useful here. Implement `parens_match_scan` and test with `test_parens_match_scan`
 
@@ -196,6 +196,7 @@ Thus, the divide-and-conquer solution has O(n) work and O(log n) span, making it
 
 The work of the parens_match_scan solution is O(n) because each step—mapping, scanning, and reducing—processes all elements of the list, leading to a total linear workload. The span is O(log n) due to the efficient parallel scan and reduction steps. This makes the solution parallelizable.
 
+ W(n) = O(n) S(n) = O(logn)
 
 
 **3e. divide and conquer solution** Implement `parens_match_dc_helper`, a divide and conquer solution to the problem. A key observation is that we *cannot* simply solve each subproblem using the above solutions and combine the results. E.g., consider '((()))', which would be split into '(((' and ')))', neither of which is matched. Yet, the whole input is matched. Instead, we'll have to keep track of two numbers: the number of unmatched right parentheses (R), and the number of unmatched left parentheses (L). `parens_match_dc_helper` returns a tuple (R,L). So, if the input is just '(', then `parens_match_dc_helper` returns (0,1), indicating that there is 1 unmatched left parens and 0 unmatched right parens. Analogously, if the input is just ')', then the result should be (1,0). The main difficulty is deciding how to merge the returned values for the two recursive calls. E.g., if (i,j) is the result for the left half of the list, and (k,l) is the output of the right half of the list, how can we compute the proper return value (R,L) using only i,j,k,l? Try a few example inputs to guide your solution, then test with `test_parens_match_dc_helper`.
@@ -206,9 +207,9 @@ The work of the parens_match_scan solution is O(n) because each step—mapping, 
 
 **3f.** Assuming any recursive calls are done in parallel, what are the recurrences for the Work and Span of this solution? What are their Big Oh solutions?
 
-The work is O(n) from solving two subproblems per level and a constant-time merge. The span is O(log n) since recursive calls run in parallel, limiting the depth of sequential operations. This ensures efficient parallel execution.
+The work is O(n) from solving two subproblems per level and a constant-time merge. The span is O(log n) since recursive calls run in parallel.
 
-
+W(n) = 2W(n/2) + O(1) S(n) = 2S(n/2) + O(1) W(n) = O(n) S(n) = O(logn)
 
  
  
